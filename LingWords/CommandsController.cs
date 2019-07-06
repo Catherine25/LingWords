@@ -9,15 +9,15 @@ namespace LingWords
         {
             "/start",
             "/end",
-            "/help",
+            "/help"
         };
 
         Dictionary<string, Delegate> keyValuePairs = new Dictionary<string, Delegate>();
 
         public CommandsController()
         {
-            keyValuePairs.Add("/help",
-                new Action( () => WriteCommands()));
+            keyValuePairs.Add("/start", new Action( () => StartCommand()));
+            keyValuePairs.Add("/help", new Action( () => HelpCommand()));
         }
 
         public void ReadCommand(string s)
@@ -35,12 +35,22 @@ namespace LingWords
                 }
         }
 
-        public void WriteCommands()
+        public void HelpCommand()
         {
             int length = CommandString.Length;
 
             for (int i = 0; i < length; i++)
                 Console.WriteLine(CommandString[i]);
-        }        
+        }
+
+        public void StartCommand()
+        {
+            Console.WriteLine("Enter the word collection name:");
+            string collectionName = Console.ReadLine();
+
+            WordLoader wordLoader = new WordLoader();
+
+            List<TranslatePair> translatePairs = wordLoader.Load(collectionName);
+        }
     }
 }
