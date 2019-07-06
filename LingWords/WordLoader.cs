@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace LingWords
@@ -6,19 +7,24 @@ namespace LingWords
     class WordLoader
     {
         string appPath = @"C:\LingWords\";
-        Dictionary<string, string> wordPairs = new Dictionary<string, string>();
+        List<TranslatePair> wordPairs = new List<TranslatePair>();
 
         public WordLoader()
         {
 
         }
 
-        public Dictionary<string, string> Load(string collectionName)
+        public List<TranslatePair> Load(string collectionName)
         {
-            if (!CheckFile(appPath + collectionName))
-                return null;
+            string fullPath = appPath + collectionName + ".txt";
 
-            using (FileStream fstream = File.OpenRead(appPath + collectionName))
+            if (!CheckFile(fullPath))
+            {
+                
+                return null;
+            }
+
+            using (FileStream fstream = File.OpenRead(fullPath))
             {
                 byte[] array = new byte[fstream.Length];
 
@@ -34,7 +40,7 @@ namespace LingWords
                 {
                     string[] vs = pairs[i].Split('-');
 
-                    wordPairs[vs[0]] = vs[1];
+                    wordPairs.Add(new TranslatePair(vs[0], vs[1]));
                 }
             }
 
@@ -44,10 +50,18 @@ namespace LingWords
         public bool CheckFile(string filePath)
         {
             FileInfo fileInfo = new FileInfo(filePath);
+
             if (fileInfo.Exists)
-                return true;
+            {
+                if (fileInfo.Length == 0)
+                    Console.WriteLine("The collection is empty!");
+
+                else return true;
+            }
             else
-                return false;
+                Console.WriteLine("No such collection!");
+
+            return false;
         }
     }
 }
