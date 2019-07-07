@@ -34,13 +34,26 @@ namespace LingWords
 
                 string[] pairs = textFromFile.Split('\n');
 
-                int length = pairs.Length;
-
-                for (int i = 0; i < length; i++)
+                for (int i = 0; i < pairs.Length; i++)
                 {
-                    string[] vs = pairs[i].Split('-');
+                    string[] vs = pairs[i].Split(' ');
 
-                    wordPairs.Add(new TranslatePair(vs[0], vs[1]));
+                    wordPairs.Add(new TranslatePair());
+
+                    int counter = 0;
+
+                    for (int j = 0; j < vs.Length; j++)
+                    {
+                        if(counter == 0)
+                            wordPairs[wordPairs.Count - 1].foreign = vs[counter];
+                        else if(counter == 1)
+                            wordPairs[wordPairs.Count - 1].native = vs[counter];
+                        else if(counter == 2)
+                            wordPairs[wordPairs.Count - 1].studyRating = int.Parse(vs[counter]);
+
+                        if (vs[i] == "-")
+                            counter++;
+                    }
                 }
             }
 
