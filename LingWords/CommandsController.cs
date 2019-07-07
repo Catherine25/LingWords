@@ -7,7 +7,7 @@ namespace LingWords
     {
         private string[] CommandString = new string[]
         {
-            "/start",
+            "/open",
             "/end",
             "/help"
         };
@@ -16,7 +16,7 @@ namespace LingWords
 
         public CommandsController()
         {
-            keyValuePairs.Add("/start", new Action( () => StartCommand()));
+            keyValuePairs.Add("/open", new Action( () => OpenCommand()));
             keyValuePairs.Add("/help", new Action( () => HelpCommand()));
         }
 
@@ -43,7 +43,7 @@ namespace LingWords
                 Console.WriteLine(CommandString[i]);
         }
 
-        public void StartCommand()
+        public void OpenCommand()
         {
             Console.WriteLine("Enter the word collection name:");
             string collectionName = Console.ReadLine();
