@@ -50,7 +50,19 @@ namespace LingWords
 
             WordLoader wordLoader = new WordLoader();
 
-            List<TranslatePair> translatePairs = wordLoader.Load(collectionName);
+            IList<TranslatePair> translatePairs = wordLoader.Load(collectionName);
+
+            if (translatePairs != null)
+            {
+                int[] vs = Algorithm.CountNumbers(translatePairs);
+
+                int length = vs.Length;
+
+                for (int i = 0; i < length; i++)
+                    Console.Write("[" + i + "* - " + vs[i] + "] ");
+
+                Console.WriteLine();
+            }
         }
     }
 }
