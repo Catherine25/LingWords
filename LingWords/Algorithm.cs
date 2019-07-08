@@ -15,5 +15,23 @@ namespace LingWords
 
             return max;
         }
+
+        public static int[] CountNumbers(IList<TranslatePair> translatePairs)
+        {
+            int maximum = GetMaxNumberFromList(translatePairs);
+            int count = translatePairs.Count;
+
+            int[] result = new int[maximum + 1];
+
+            int rating;
+
+            for (int i = 0; i < count; i++)
+            {
+                rating = translatePairs[i].studyRating;
+                result[rating]++;
+            }
+
+            return result;
+        }
     }
 }
