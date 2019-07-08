@@ -9,20 +9,14 @@ namespace LingWords
         string appPath = @"C:\LingWords\";
         List<TranslatePair> wordPairs = new List<TranslatePair>();
 
-        public WordLoader()
-        {
-
-        }
+        public WordLoader() { }
 
         public List<TranslatePair> Load(string collectionName)
         {
             string fullPath = appPath + collectionName + ".txt";
 
             if (!CheckFile(fullPath))
-            {
-                
                 return null;
-            }
 
             using (FileStream fstream = File.OpenRead(fullPath))
             {
@@ -44,15 +38,26 @@ namespace LingWords
 
                     for (int j = 0; j < vs.Length; j++)
                     {
-                        if(counter == 0)
-                            wordPairs[wordPairs.Count - 1].foreign = vs[counter];
-                        else if(counter == 1)
-                            wordPairs[wordPairs.Count - 1].native = vs[counter];
-                        else if(counter == 2)
-                            wordPairs[wordPairs.Count - 1].studyRating = int.Parse(vs[counter]);
+                        int cur = wordPairs.Count - 1;
 
-                        if (vs[i] == "-")
+                        if (vs[j] == "-")
+                        {
                             counter++;
+                            continue;
+                        }
+
+                        if (counter == 0)
+                        {
+                            wordPairs[cur].foreign += vs[j];
+                            wordPairs[cur].foreign += ' ';
+                        }
+                        else if(counter == 1)
+                        {
+                            wordPairs[cur].native += vs[j];
+                            wordPairs[cur].native += ' ';
+                        }
+                        else if(counter == 2)
+                            wordPairs[cur].studyRating = int.Parse(vs[j]);
                     }
                 }
             }
